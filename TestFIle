@@ -1,0 +1,7 @@
+<profile>
+    <id>custom-ssl</id>
+    <properties>
+        <javax.net.ssl.trustStore>/path/to/truststore.jks</javax.net.ssl.trustStore>
+        <javax.net.ssl.trustStorePassword>yourpassword</javax.net.ssl.trustStorePassword>
+    </properties>
+</profile>
