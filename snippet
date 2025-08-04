@@ -1,1 +1,3 @@
-ng build my-app:build-wc --configuration=production
+"scripts": {
+  "build:wc": "ng run approvals-app:build-wc:production && cat dist/simple-web-component/runtime.js dist/simple-web-component/polyfills.js dist/simple-web-component/main.js > dist/simple-web-component/approvals-web-component.js"
+}
