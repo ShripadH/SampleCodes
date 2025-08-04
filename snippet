@@ -1,3 +1,27 @@
-"scripts": {
-  "build:wc": "ng run approvals-app:build-wc:production && cat dist/simple-web-component/runtime.js dist/simple-web-component/polyfills.js dist/simple-web-component/main.js > dist/simple-web-component/approvals-web-component.js"
+const fs = require('fs');
+const path = require('path');
+
+const distDir = path.resolve(__dirname, 'dist/simple-web-component');
+const filesToCombine = ['runtime.js', 'polyfills.js', 'main.js'];
+const outputFileName = 'approvals-web-component.js';
+
+if (!fs.existsSync(distDir)) {
+  console.error(`Error: The directory ${distDir} does not exist. Please check the build output path.`);
+  process.exit(1);
 }
+
+let combinedCode = '';
+filesToCombine.forEach(file => {
+  const filePath = path.join(distDir, file);
+  if (fs.existsSync(filePath)) {
+    combinedCode += fs.readFileSync(filePath, 'utf8') + '\n';
+    console.log(`Found and added file: ${file}`);
+  } else {
+    console.error(`Error: File not found: ${filePath}. Cannot create single file web component.`);
+    process.exit(1);
+  }
+});
+
+fs.writeFileSync(path.join(distDir, outputFileName), combinedCode, 'utf8');
+console.log(`Successfully created single file web component at: ${path.join(distDir, outputFileName)}`);
+
